@@ -3,6 +3,7 @@ package com.organizador.controller;
 import com.organizador.model.Tarefa;
 import com.organizador.service.TarefaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class TarefaController {
     public ResponseEntity<List<Tarefa>> buscarTodasTarefas(){
         List<Tarefa> tarefas = service.buscarTodasTarefas();
         if(tarefas == null || tarefas.isEmpty()){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok().build();
         }
         return ResponseEntity.ok(tarefas);
     }
@@ -46,9 +47,21 @@ public class TarefaController {
         return ResponseEntity.ok(model);
     }
 
-    @PutMapping("/{id}")
+
+    @PutMapping("/concluir/{id}")
     public ResponseEntity<Tarefa> concluirTarefa(@PathVariable Long id){
         var model = service.concluirTarefa(id);
         return ResponseEntity.ok(model);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deletarTarefa(@PathVariable Long id){
+        try {
+            service.deletarTarefa(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e){
+            return new ResponseEntity(new Error("Falha ao deletar registro: " + e.getMessage()),
+                    HttpStatus.EXPECTATION_FAILED);
+        }
     }
 }

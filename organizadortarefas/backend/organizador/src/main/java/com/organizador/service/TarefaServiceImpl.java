@@ -41,4 +41,9 @@ public class TarefaServiceImpl implements TarefaService {
         alterarTarefa(tarefa);
         return tarefa;
     }
+
+    @Override
+    public void deletarTarefa(Long id) throws Exception {
+        repository.delete(buscarTarefaPorId(id).get());
+    }
 }

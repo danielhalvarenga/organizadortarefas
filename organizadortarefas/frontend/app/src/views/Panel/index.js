@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
+import RowData from "../../components/RowData";
 import TableNewTask from "../../components/TableNewTask";
-import checkIcon from "../../icons/check-circle-fill.svg";
-import tashIcon from "../../icons/trash-fill.svg"
 
 import api from '../../services/api';
 
@@ -12,7 +11,15 @@ function Painel(){
 
     async function buscarTarefas(){
       const response = await api.get('/tarefas');
-      setTarefas([... tarefas, ...response.data])
+      setTarefas([...tarefas, ...response.data])
+    }
+
+    function recarregarTarefas(id){
+      setTarefas(tarefas.filter(tarefa => tarefa.id !== id))
+    }
+
+    function carregarTarefaConcluida(){
+      window.location.reload();
     }
 
     useEffect(() => {
@@ -34,30 +41,7 @@ function Painel(){
               <ul>
                   {tarefas == null || tarefas.length === 0 ? <p>Não existem tarefas cadastradas...</p> :
                     tarefas.map(tarefa => (
-                      <li key={tarefa.id}>
-                          <div className="row-task container row">
-                          <div className="col-md-2">
-                              <div>
-                                <img src={checkIcon}/>
-                              </div>
-                              <div>
-                                <img src={tashIcon}/>
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <strong>Titulo:</strong>
-                              <p>{tarefa.titulo}</p>
-                              <strong>Descrição:</strong>
-                              <p>{tarefa.descricao}</p>
-                            </div>
-                            <div className="col-md-4">
-                              <strong>Data:</strong>
-                              <p>{Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(tarefa.data), 'dd/MM/yyyy HH:mm:ss')}</p>
-                              <strong>Concluida:</strong>
-                              <p>{tarefa.concluida ? "Sim" : "Não"}</p>
-                            </div>
-                          </div>
-                      </li>
+                      <RowData carregarTarefaConcluida={carregarTarefaConcluida} recarregarTarefas={recarregarTarefas} tarefa={tarefa}/>
                   ))}
               </ul>
             </div>

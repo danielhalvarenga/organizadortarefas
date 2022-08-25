@@ -4,6 +4,8 @@ import { Button, Form } from "react-bootstrap";
 import api from "../../services/api";
 
 function TableNewTask() {
+  const [date, setDate] = useState(new Date());
+
   var state = {
     "titulo": "",
     "descricao": "",
@@ -40,7 +42,7 @@ function TableNewTask() {
 
       <Form.Group className="mb-3" id="data">
         <Form.Label>Data</Form.Label>
-        <Form.Control id="data" onChange={(e) => state.data = e.target.value} type="datetime-local" />
+        <Form.Control value={date} id="data" onChange={(e) => state.data = e.target.value} type="datetime-local" />
       </Form.Group>
 
       <Form.Group className="mb-3" id="concluida">

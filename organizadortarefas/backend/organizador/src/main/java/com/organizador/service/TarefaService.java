@@ -15,4 +15,6 @@ public interface TarefaService {
     Tarefa alterarTarefa(Tarefa tarefa);
 
     Tarefa concluirTarefa(Long id);
+
+    void deletarTarefa(Long id) throws Exception;
 }
