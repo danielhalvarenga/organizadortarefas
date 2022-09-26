@@ -47,7 +47,6 @@ public class TarefaController {
         return ResponseEntity.ok(model);
     }
 
-
     @PutMapping("/concluir/{id}")
     public ResponseEntity<Tarefa> concluirTarefa(@PathVariable Long id){
         var model = service.concluirTarefa(id);
