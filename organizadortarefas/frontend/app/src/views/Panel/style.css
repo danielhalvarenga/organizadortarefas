@@ -1,12 +1,17 @@
-.row-task{
-    border-bottom: 1px solid rgb(55, 71, 218);
+div {
+    color: #161C23;
 }
 
 .task{
     overflow: auto;
     height: 100vh;
+    margin-top: 24px !important;
 }
 
 li {
     list-style-type: none;
+}
+
+.title{
+    padding-top: 20px;
 }

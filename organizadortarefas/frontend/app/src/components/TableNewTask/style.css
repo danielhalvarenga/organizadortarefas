@@ -1,0 +1,10 @@
+.newtask-panel{
+    margin-top: 24px;
+    border-radius: 0.5rem;
+    border: 1px #5271FF solid;
+    padding: 10px;
+}
+
+.newbutton{
+    width: 100%;
+}

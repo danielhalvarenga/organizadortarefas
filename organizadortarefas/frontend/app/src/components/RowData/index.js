@@ -3,6 +3,8 @@ import tashIcon from "../../icons/trash-fill.svg"
 
 import api from "../../services/api";
 
+import '../RowData/style.css'
+
 function RowData(props) {
 
   async function deletarTarefa(id) {
@@ -30,7 +32,7 @@ function RowData(props) {
   return (
     <li key={props.tarefa.id}>
       <div className="row-task container row">
-        <div className="col-md-2">
+        <div className="col-md-2 group-button">
           {props.tarefa.concluida ? '' : 
             <div>
               <button onClick={() => concluirTarefa(props.tarefa.id)} type="button">
