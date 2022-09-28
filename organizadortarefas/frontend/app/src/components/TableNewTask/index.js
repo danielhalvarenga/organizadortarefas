@@ -77,17 +77,6 @@ function TableNewTask(props) {
           <Form.Control id="data" onChange={(e) => state.data = e.target.value} type="datetime-local" />
         </Form.Group>
 
-        <Form.Group className="mb-3" id="data">
-          <div className="row">
-            <div className="col-6">
-              <Form.Label>Cor de fundo</Form.Label>
-            </div>
-            <div className="col-6" style={{textAlign : 'right'}}>
-              <ColorSelector/>
-            </div>
-          </div>
-        </Form.Group>
-
         <Form.Group className="mb-3" id="concluida">
           <Form.Check id="concluida" onChange={(e) => e.target.checked ? state.concluida = true : state.concluida = false} type="checkbox" label="Tarefa concluída" />
         </Form.Group>
