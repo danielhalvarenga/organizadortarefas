@@ -20,6 +20,21 @@ public class TarefaServiceImpl implements TarefaService {
     }
 
     @Override
+    public List<Tarefa> buscarTodasTarefasConcluidas() {
+        return repository.findAllConcluidas();
+    }
+
+    @Override
+    public List<Tarefa> buscarTodasTarefasPendentes() {
+        return repository.findAllPendentes();
+    }
+
+    @Override
+    public List<Tarefa> buscarTodasTarefasVencidas() {
+        return repository.findAllVencidas();
+    }
+
+    @Override
     public Optional<Tarefa> buscarTarefaPorId(Long id) {
         return Optional.of(repository.findById(id)).get();
     }
@@ -38,6 +53,14 @@ public class TarefaServiceImpl implements TarefaService {
     public Tarefa concluirTarefa(Long id) {
         Tarefa tarefa = buscarTarefaPorId(id).get();
         tarefa.setConcluida(true);
+        alterarTarefa(tarefa);
+        return tarefa;
+    }
+
+    @Override
+    public Tarefa retornarTarefa(Long id) {
+        Tarefa tarefa = buscarTarefaPorId(id).get();
+        tarefa.setConcluida(false);
         alterarTarefa(tarefa);
         return tarefa;
     }
