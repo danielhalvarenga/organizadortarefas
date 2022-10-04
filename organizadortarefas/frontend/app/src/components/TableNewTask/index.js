@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import api from "../../services/api";
-import ColorSelector from "../ColorSelector";
 
 import '../TableNewTask/style.css'
   
@@ -9,49 +8,29 @@ function TableNewTask(props) {
   const [camposVazios, setCamposVazios] = useState([]);
 
   var state = {
-    "titulo": "",
-    "descricao": "",
-    "data": "",
+    "titulo": null,
+    "descricao": null,
+    "data": null,
     "concluida": false
   };
 
   function save(){
     setCamposVazios([]);
-    var isCamposNulos = false;
-    var mensagem = []
-    
-    if(state.titulo == null || state.titulo == ''){
-      mensagem.push([<><b>[Título] não pode ser nulo.</b><br></br></>]);
-      isCamposNulos = true;
-    }
-    if(state.descricao == null || state.descricao == ''){
-      mensagem.push([<><b>[Descrição] não pode ser nula.</b><br></br></>]);
-      isCamposNulos = true;
-    }
-    if(state.data == null || state.data == ''){
-      mensagem.push([<><b>[Data] não pode ser nula.</b><br></br></>]);
-      isCamposNulos = true;
-    }
-    
-    if(isCamposNulos){
-      setCamposVazios(mensagem)
-      return;
-    }
-    
     api.post('/tarefas', {
-      "titulo": state.titulo,
-      "descricao": state.descricao,
-      "data": state.data,
-      "concluida": false
+      "titulo": state.titulo != null ? state.titulo : null,
+      "descricao": state.descricao != null ? state.descricao : null,
+      "data": state.data != null ? state.data : null,
+      "concluida": state.concluida
     })
-    .then(function (response) {
-      console.log(response);
+    .then(function(response){
+      window.location.reload();
     })
     .catch(function (error) {
-      console.log(error);
+      if(error != null && error.response != null 
+        && error.response.data != null && error.response.data.message != null){
+        setCamposVazios(error.response.data.message)
+      }
     });
-
-    props.buscarTarefas();
   }
 
   return (

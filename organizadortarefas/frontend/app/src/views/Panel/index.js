@@ -1,4 +1,3 @@
-import { render } from "@testing-library/react";
 import { useEffect, useState } from "react";
 import RowData from "../../components/RowData";
 import TableNewTask from "../../components/TableNewTask";
@@ -8,16 +7,30 @@ import api from '../../services/api';
 import '../Panel/style.css'
 
 function Painel() {
-  const [tarefas, setTarefas] = useState([]);
+  const [tarefasPendentes, setTarefasPendentes] = useState([]);
+  const [tarefasConcluidas, setTarefasConcluidas] = useState([]);
+  const [tarefasVencidas, setTarefasVencidas] = useState([]);
 
-  async function buscarTarefas() {
-    setTarefas(null)
-    const response = await api.get('/tarefas');
-    setTarefas([...tarefas, ...response.data])
+  async function buscarTarefasPendentes() {
+    setTarefasPendentes([])
+    const response = await api.get('/tarefas/pendentes');
+    setTarefasPendentes([...tarefasPendentes, ...response.data])
+  }
+
+  async function buscarTarefasVencidas() {
+    setTarefasVencidas([])
+    const response = await api.get('/tarefas/vencidas');
+    setTarefasVencidas([...tarefasVencidas, ...response.data])
+  }
+
+  async function buscarTarefasConcluidas() {
+    setTarefasConcluidas([])
+    const response = await api.get('/tarefas/concluidas');
+    setTarefasConcluidas([...tarefasConcluidas, ...response.data])
   }
 
   function recarregarTarefas(id) {
-    setTarefas(tarefas.filter(tarefa => tarefa.id !== id))
+    setTarefasPendentes(tarefasPendentes.filter(tarefa => tarefa.id !== id))
   }
 
   function carregarTarefaConcluida() {
@@ -25,7 +38,9 @@ function Painel() {
   }
 
   useEffect(() => {
-    buscarTarefas()
+    buscarTarefasPendentes()
+    buscarTarefasVencidas()
+    buscarTarefasConcluidas()
   }, [])
   
   return (
@@ -37,12 +52,39 @@ function Painel() {
       </div>
       <div className="row">
         <div className="col-md-4">
-          <TableNewTask buscarTarefas={buscarTarefas}/>
+          <TableNewTask buscarTarefas={buscarTarefasPendentes}/>
         </div>
         <div className="col-md-8 task">
+          <div className="row-status" style={{'color' : 'green'}}>
+            Tarefas concluídas
+          </div>
           <ul>
-            {tarefas == null || tarefas.length === 0 ? <p>Não existem tarefas cadastradas...</p> :
-              tarefas.map(tarefa => (
+            {tarefasConcluidas == null || tarefasConcluidas.length === 0 ? <p>Não existem tarefas concluídas...</p> :
+              tarefasConcluidas.map(tarefa => (
+                <RowData carregarTarefaConcluida={carregarTarefaConcluida} recarregarTarefas={recarregarTarefas} tarefa={tarefa} />
+              ))}
+          </ul>
+          {
+          tarefasVencidas == null || tarefasVencidas.length === 0 ? "" : 
+          <>
+            <div className="row-status" style={{'color' : 'red'}}>
+              Tarefas vencidas
+            </div>
+            <ul>
+            {tarefasVencidas == null || tarefasVencidas.length === 0 ? "" :
+              tarefasVencidas.map(tarefa => (
+                <RowData carregarTarefaConcluida={carregarTarefaConcluida} recarregarTarefas={recarregarTarefas} tarefa={tarefa} />
+              ))}
+            </ul>
+          </>
+          }
+          
+          <div className="row-status">
+            Tarefas pendentes
+          </div>
+          <ul>
+            {tarefasPendentes == null || tarefasPendentes.length === 0 ? <p>Não existem tarefas pendentes...</p> :
+              tarefasPendentes.map(tarefa => (
                 <RowData carregarTarefaConcluida={carregarTarefaConcluida} recarregarTarefas={recarregarTarefas} tarefa={tarefa} />
               ))}
           </ul>

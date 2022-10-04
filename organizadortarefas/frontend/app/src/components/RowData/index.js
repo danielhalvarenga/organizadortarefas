@@ -1,5 +1,6 @@
 import checkIcon from "../../icons/check-circle-fill.svg";
-import tashIcon from "../../icons/trash-fill.svg"
+import tashIcon from "../../icons/trash-fill.svg";
+import returnIcon from "../../icons/arrow-counterclockwise.svg";
 
 import api from "../../services/api";
 
@@ -15,14 +16,19 @@ function RowData(props) {
       .catch(function (error) {
         console.log(error);
       });
-      props.recarregarTarefas(id);
+      props.carregarTarefaConcluida();
   }
 
   async function concluirTarefa(id){
     api.put('/tarefas/concluir/' + id)
-      .then(function (response) {
-        console.log(response);
-      })
+      .catch(function (error) {
+        console.log(error);
+      });
+      props.carregarTarefaConcluida();
+  }
+
+  async function retornarTarefa(id){
+    api.put('/tarefas/retornar/' + id)
       .catch(function (error) {
         console.log(error);
       });
@@ -33,7 +39,13 @@ function RowData(props) {
     <li key={props.tarefa.id}>
       <div className="row-task container row">
         <div className="col-md-2 group-button">
-          {props.tarefa.concluida ? '' : 
+          {props.tarefa.concluida ? 
+          <div>
+            <button onClick={() => retornarTarefa(props.tarefa.id)} type="button">
+              <img src={returnIcon} />
+            </button>
+          </div>
+          : 
             <div>
               <button onClick={() => concluirTarefa(props.tarefa.id)} type="button">
                 <img src={checkIcon} />
