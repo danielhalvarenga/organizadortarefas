@@ -2,6 +2,7 @@ package com.organizador.controller;
 
 import com.organizador.dto.TarefaResponse;
 import com.organizador.model.Tarefa;
+import com.organizador.service.PrioridadeService;
 import com.organizador.service.TarefaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,9 @@ public class TarefaController {
     @Autowired
     private TarefaService service;
 
+    @Autowired
+    private PrioridadeService prioridadeService;
+
     @GetMapping
     public ResponseEntity<List<Tarefa>> buscarTodasTarefas(){
         List<Tarefa> tarefas = service.buscarTodasTarefas();
@@ -32,7 +36,7 @@ public class TarefaController {
     public ResponseEntity<List<Tarefa>> buscarTodasTarefasConcluidas(){
         List<Tarefa> tarefas = service.buscarTodasTarefasConcluidas();
         if(tarefas == null || tarefas.isEmpty()){
-            return ResponseEntity.ok().build();
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(tarefas);
     }
@@ -41,7 +45,7 @@ public class TarefaController {
     public ResponseEntity<List<Tarefa>> buscarTodasTarefasPendentes(){
         List<Tarefa> tarefas = service.buscarTodasTarefasPendentes();
         if(tarefas == null || tarefas.isEmpty()){
-            return ResponseEntity.ok().build();
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(tarefas);
     }
@@ -50,7 +54,7 @@ public class TarefaController {
     public ResponseEntity<List<Tarefa>> buscarTodasTarefasVencidas(){
         List<Tarefa> tarefas = service.buscarTodasTarefasVencidas();
         if(tarefas == null || tarefas.isEmpty()){
-            return ResponseEntity.ok().build();
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(tarefas);
     }
@@ -79,11 +83,15 @@ public class TarefaController {
         if(response.getTitulo() == null){
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "[Data] não pode ser nula.");
         }
+        if(response.getIdPrioridade() == null){
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "[Prioridade] não pode ser nula.");
+        }
         Tarefa tarefa = new Tarefa();
         tarefa.setTitulo(response.getTitulo());
         tarefa.setDescricao(response.getDescricao());
         tarefa.setData(response.getData());
         tarefa.setConcluida(response.isConcluida());
+        tarefa.setPrioridade(prioridadeService.buscarPorId(response.getIdPrioridade()));
 
         var model = service.salvarTarefa(tarefa);
         return ResponseEntity.ok(model);

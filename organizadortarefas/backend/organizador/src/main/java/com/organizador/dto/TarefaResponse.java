@@ -12,5 +12,5 @@ public class TarefaResponse {
     private String descricao;
     private Date data;
     private boolean isConcluida;
-
+    private String idPrioridade;
 }

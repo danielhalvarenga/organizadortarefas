@@ -1,6 +1,7 @@
 package com.organizador.model;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -8,24 +9,25 @@ import java.util.Date;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Tarefa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
-    @NonNull
+    @Column(nullable = false)
     private String titulo;
 
-    @Column
+    @Column(nullable = false)
     private String descricao;
 
-    @Column
-    @NonNull
+    @Column(nullable = false)
     private Date data;
 
-    @Column(name = "concluida")
+    @Column(name = "concluida", nullable = false)
     private boolean isConcluida;
+
+    @ManyToOne
+    @JoinColumn(name = "prioridade_id")
+    private Prioridade prioridade;
 }
