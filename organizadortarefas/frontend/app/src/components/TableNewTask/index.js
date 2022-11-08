@@ -35,7 +35,7 @@ function TableNewTask() {
       camposNulos.push("[Prioridade] não pode ser nula")
     }
 
-    if(camposNulos != null || camposNulos.lenght != 0){
+    if(camposNulos != null && camposNulos.length != 0){
       setCamposVazios(camposNulos)
       return;
     }
