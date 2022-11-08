@@ -70,22 +70,6 @@ public class TarefaController {
 
     @PostMapping
     public ResponseEntity<Tarefa> salvarTarefa(@RequestBody TarefaResponse response){
-        String messageError = "";
-        if(response == null){
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Preencha os campos para prosseguir.");
-        }
-        if(response.getTitulo() == null){
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "[Título] não pode ser nulo.");
-        }
-        if(response.getDescricao() == null){
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "[Descrição] não pode ser nula.");
-        }
-        if(response.getTitulo() == null){
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "[Data] não pode ser nula.");
-        }
-        if(response.getIdPrioridade() == null){
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "[Prioridade] não pode ser nula.");
-        }
         Tarefa tarefa = new Tarefa();
         tarefa.setTitulo(response.getTitulo());
         tarefa.setDescricao(response.getDescricao());

@@ -8,7 +8,17 @@ import '../RowData/style.css'
 
 function RowData(props) {
 
+  function alertExclusaoRegistro(){
+    let message = 'Caso prossiga com a exclusão o registro não poderá ser recuperado.';
+    return !window.confirm(message);
+  }
+
   async function deletarTarefa(id) {
+
+    if(alertExclusaoRegistro()){
+      return;
+    }    
+
     api.delete('/tarefas/' + id)
       .then(function (response) {
         console.log(response);
