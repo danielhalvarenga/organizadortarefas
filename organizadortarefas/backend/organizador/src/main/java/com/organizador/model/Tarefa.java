@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -22,7 +23,7 @@ public class Tarefa {
     private String descricao;
 
     @Column(nullable = false)
-    private Date data;
+    private LocalDateTime data;
 
     @Column(name = "concluida", nullable = false)
     private boolean isConcluida;

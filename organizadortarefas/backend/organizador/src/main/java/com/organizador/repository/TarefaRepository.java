@@ -10,13 +10,29 @@ import java.util.List;
 @Repository
 public interface TarefaRepository extends JpaRepository<Tarefa, Long> {
 
-    @Query("SELECT tarefas FROM Tarefa tarefas WHERE isConcluida = TRUE ORDER BY DATA")
+    static final String ORDER_BY_PRIORIDADE = ", PRIORIDADE_CASE";
+    static final String CASE_PRIORIDADE = "(CASE " +
+            "WHEN tarefa.prioridade.id = 'A' THEN 1 " +
+            "WHEN tarefa.prioridade.id = 'M' THEN 2 " +
+            "WHEN tarefa.prioridade.id = 'B' THEN 3 " +
+            "END) AS PRIORIDADE_CASE ";
+
+    @Query( "SELECT tarefa, "
+            + CASE_PRIORIDADE +
+            " FROM Tarefa tarefa WHERE isConcluida = TRUE ORDER BY DATA"
+            + ORDER_BY_PRIORIDADE)
     List<Tarefa> findAllConcluidas();
 
-    @Query("SELECT tarefas FROM Tarefa tarefas WHERE isConcluida = FALSE AND DATA > CURRENT_DATE  ORDER BY DATA")
+    @Query("SELECT tarefa, "
+            + CASE_PRIORIDADE +
+            " FROM Tarefa tarefa WHERE isConcluida = FALSE AND DATA > CURRENT_TIMESTAMP ORDER BY DATA"
+            + ORDER_BY_PRIORIDADE)
     List<Tarefa> findAllPendentes();
 
-    @Query("SELECT tarefas FROM Tarefa tarefas WHERE isConcluida = FALSE AND DATA < CURRENT_DATE ORDER BY DATA")
+    @Query("SELECT tarefa, "
+            + CASE_PRIORIDADE +
+            " FROM Tarefa tarefa WHERE isConcluida = FALSE AND DATA < CURRENT_TIMESTAMP ORDER BY DATA"
+            + ORDER_BY_PRIORIDADE)
     List<Tarefa> findAllVencidas();
 
 }

@@ -22,20 +22,20 @@ function TableNewTask() {
     setCamposVazios()
     camposNulos = []
 
-    if(titulo == null || titulo == ''){
+    if(titulo == null || titulo === ''){
       camposNulos.push("[Título] não pode ser nulo");
     }
-    if(descricao == null || descricao == ''){
+    if(descricao == null || descricao === ''){
       camposNulos.push("[Descrição] não pode ser nula")
     }
-    if(data == null || data == ''){
+    if(data == null || data === ''){
       camposNulos.push("[Data] não pode ser nula")
     }
-    if(prioridade == null || prioridade == ''){
+    if(prioridade == null || prioridade === ''){
       camposNulos.push("[Prioridade] não pode ser nula")
     }
 
-    if(camposNulos != null && camposNulos.length != 0){
+    if(camposNulos != null && camposNulos.length !== 0){
       setCamposVazios(camposNulos)
       return;
     }
@@ -48,7 +48,6 @@ function TableNewTask() {
       "idPrioridade": prioridade
     })
     .then(function(response){
-      //setTarefasPendentes(tarefasPendentes.filter(tarefa => tarefa.id !== id))
       window.location.reload();
     })
     .catch(function (error) {
@@ -81,7 +80,7 @@ function TableNewTask() {
         </Form.Group>
 
         <Form.Group className="mb-3" id="concluida">
-          <Form.Check id="concluida" onChange={(e) => setConcluidaPersistence(e.target.checked ? setConcluidaPersistence(true) : setConcluidaPersistence(false))} type="checkbox" label="Tarefa concluída" />
+          <Form.Check id="concluida" onChange={(e) => e.target.checked ? setConcluidaPersistence(true) : setConcluidaPersistence(false)} type="checkbox" label="Tarefa concluída" />
         </Form.Group>
         
         <Form.Group className="mb-3" id="concluida">

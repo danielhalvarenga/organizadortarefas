@@ -54,15 +54,27 @@ function RowData(props) {
   }
 
   function inserirZero(valor){
-    if(valor.toString().length == 1){
+    if(valor.toString().length === 1){
       return "0" + valor;
     }
     return valor;
   }
 
+  function getColorBorder(idPrioridade){
+    if(idPrioridade === 'A'){
+      return 'red'
+    }
+    if(idPrioridade === 'M'){
+      return 'yellow'
+    }
+    if(idPrioridade === 'B'){
+      return 'green'
+    }
+  }
+
   return (
     <li key={props.tarefa.id}>
-      <div className="row-task container row">
+      <div className="row-task container row"  style={{'border-color' : getColorBorder(props.tarefa.prioridade.id)}}>
         <div className="col-md-2 group-button">
           {props.tarefa.concluida ? 
           <div>
