@@ -84,6 +84,7 @@ public class TarefaController {
     @PutMapping
     public ResponseEntity<Tarefa> alterarTarefa(@RequestBody TarefaResponse response){
         Tarefa tarefa = new Tarefa();
+        tarefa.setId(response.getId());
         tarefa.setTitulo(response.getTitulo());
         tarefa.setDescricao(response.getDescricao());
         tarefa.setData(response.getData());

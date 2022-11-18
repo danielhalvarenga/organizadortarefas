@@ -36,7 +36,7 @@ const TableNewTask = forwardRef((props, ref) => {
     setDescricaoPersistence(response.data.descricao);
     setDataPersistence(response.data.data);
     setConcluidaPersistence(response.data.concluida);
-    setPrioridadePersistence(response.data.prioridade);
+    setPrioridadePersistence(response.data.prioridade.id);
   }
 
   useImperativeHandle(ref, () => ({
