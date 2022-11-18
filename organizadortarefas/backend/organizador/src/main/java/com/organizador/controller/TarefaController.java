@@ -88,6 +88,7 @@ public class TarefaController {
         tarefa.setDescricao(response.getDescricao());
         tarefa.setData(response.getData());
         tarefa.setConcluida(response.isConcluida());
+        tarefa.setPrioridade(prioridadeService.buscarPorId(response.getIdPrioridade()));
 
         var model = service.alterarTarefa(tarefa);
         return ResponseEntity.ok(model);

@@ -23,7 +23,7 @@ public class Tarefa {
     private String descricao;
 
     @Column(nullable = false)
-    private LocalDateTime data;
+    private Date data;
 
     @Column(name = "concluida", nullable = false)
     private boolean isConcluida;

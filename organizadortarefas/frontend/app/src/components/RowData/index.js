@@ -1,6 +1,7 @@
 import checkIcon from "../../icons/check-circle-fill.svg";
 import tashIcon from "../../icons/trash-fill.svg";
 import returnIcon from "../../icons/arrow-counterclockwise.svg";
+import alterIcon from "../../icons/caneta.png"
 
 import api from "../../services/api";
 
@@ -45,19 +46,8 @@ function RowData(props) {
       props.carregarTarefaConcluida();
   }
 
-  function formatDate(date){
-    return inserirZero(date[2]) + "/" + 
-      inserirZero(date[1]) + "/" + 
-      date[0] + " " + 
-      inserirZero(date[3]) + ":" + 
-      inserirZero(date[4]);
-  }
-
-  function inserirZero(valor){
-    if(valor.toString().length === 1){
-      return "0" + valor;
-    }
-    return valor;
+  function alterarTarefa(id){
+    props.alterarTarefa(id)
   }
 
   function getColorBorder(idPrioridade){
@@ -74,7 +64,7 @@ function RowData(props) {
 
   return (
     <li key={props.tarefa.id}>
-      <div className="row-task container row"  style={{'border-color' : getColorBorder(props.tarefa.prioridade.id)}}>
+      <div className="row-task container row"  style={{'borderColor' : getColorBorder(props.tarefa.prioridade.id)}}>
         <div className="col-md-2 group-button">
           {props.tarefa.concluida ? 
           <div>
@@ -90,6 +80,11 @@ function RowData(props) {
             </div>
           }
           <div>
+            <button onClick={() => alterarTarefa(props.tarefa.id)} type="button">
+              <img style={{"width" : "16px"}} src={alterIcon} />
+            </button>
+          </div>
+          <div>
             <button onClick={() => deletarTarefa(props.tarefa.id)} type="button">
               <img src={tashIcon} />
             </button>
@@ -103,7 +98,7 @@ function RowData(props) {
         </div>
         <div className="col-md-4">
           <strong>Data:</strong>
-          <p>{formatDate(props.tarefa.data)}</p>
+          <p>{Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(props.tarefa.data), 'dd/MM/yyyy HH:mm:ss')}</p>
           <strong>Concluida:</strong>
           <p>{props.tarefa.concluida ? "Sim" : "Não"}</p>
         </div>

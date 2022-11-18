@@ -17,7 +17,7 @@ function SelectPrioridade(props) {
   }
 
   return (
-    <select value="M" onChange={e => props.setPrioridade(e.target.value)} className="select">
+    <select value={props.valuePrioridade != null ? props.valuePrioridade : "M"} onChange={e => props.setPrioridade(e.target.value)} className="select">
       {prioridades.map((a) => ( 
           <option value={a.id}>{a.nome}</option>
       ))}

@@ -11,7 +11,7 @@ public class TarefaResponse {
     private Long id;
     private String titulo;
     private String descricao;
-    private LocalDateTime data;
+    private Date data;
     private boolean isConcluida;
     private String idPrioridade;
 }
